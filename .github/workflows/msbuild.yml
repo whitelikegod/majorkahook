@@ -1,0 +1,23 @@
+name: MSBuild
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Add MSBuild to PATH
+      uses: microsoft/setup-msbuild@v2
+
+    - name: Build solution
+      run: msbuild majorkahook.sln /p:Configuration=Release /p:Platform=x86
+
+    - name: Upload Artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: compiled-cheat
+        path: Release/
