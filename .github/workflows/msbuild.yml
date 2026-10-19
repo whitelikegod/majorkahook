@@ -1,7 +1,9 @@
-name: MSBuild
+name: Build x64 Release
 
 on:
-  workflow_dispatch:
+  push:
+    branches: [ "main" ]
+  workflow_dispatch: # Позволяет запускать билд вручную из вкладки Actions
 
 jobs:
   build:
@@ -13,11 +15,12 @@ jobs:
     - name: Add MSBuild to PATH
       uses: microsoft/setup-msbuild@v2
 
-    - name: Build solution
-      run: msbuild majorkahook.sln /p:Configuration=Release /p:Platform=x86
+    - name: Build solution (x64 Release)
+      run: msbuild majorkahook.sln /p:Configuration=Release /p:Platform=x64
 
-    - name: Upload Artifact
+    - name: Upload x64 Artifact
       uses: actions/upload-artifact@v4
       with:
-        name: compiled-cheat
-        path: Release/
+        name: majorkahook-x64-dll
+        path: |
+          x64/Release/*.dll
